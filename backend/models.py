@@ -18,7 +18,7 @@ class User(AbstractUser):
     cargo = models.CharField(max_length=20, choices=CARGO_CHOICES, default="colaborador")
 
     def __str__(self):
-        return f"{self.username} - {self.setor} - {self.cargo}"
+        return f"{self.first_name} {self.last_name} - {self.setor} - {self.cargo}"
 
 
 class Relatorio(models.Model):
@@ -30,6 +30,9 @@ class Relatorio(models.Model):
 
     data_criacao = models.DateTimeField(auto_now_add=True)
     data_modificacao = models.DateTimeField(auto_now=True)
+
+    hora = models.IntegerField(default=0)
+    hora_modificada = models.IntegerField(default=0)
 
     colaborador = models.ForeignKey(User, on_delete=models.CASCADE)
     setor = models.CharField(max_length=20, choices=User.SETOR_CHOICES, default="administrativo")
