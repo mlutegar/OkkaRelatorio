@@ -15,11 +15,14 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
+    url='https://okkarelatorio.fly.dev',
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('backend.urls')),
+    path('', include("frontend.urls")),
+
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

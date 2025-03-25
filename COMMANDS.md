@@ -15,7 +15,7 @@ $ git add .
 Comando para fazer commit dos arquivos:
 
 ```bash
-$ git commit -m "feat: adicionando models" --no-verify
+$ git commit -m "fix: corrigindo modelo" --no-verify
 ```
 
 Comando para fazer push dos arquivos:
@@ -57,7 +57,7 @@ $ python manage.py createsuperuser
 Criar um app no Django, execute o comando abaixo:
 
 ```bash
-$ python manage.py startapp backend
+$ python manage.py startapp frontend
 ```
 
 # DOCKER
