@@ -11,6 +11,20 @@ SECRET_KEY = 'django-insecure-##5&bo(z3!wsbm6#d*b*d*c566b6$&s&@k%j5&u#87)w1_l^gz
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': '/data/db.sqlite3',
+    }
+}
 
 ALLOWED_HOSTS = ['127.0.0.1', '127.0.0.1:3005', 'localhost:3005', '192.168.1.7', '192.168.56.1', '192.168.1.20',
                  '192.168.1.8', 'okkarelatorio.fly.dev']
@@ -35,6 +49,7 @@ CORS_ALLOW_HEADERS = [
     "content-type",
     "authorization",
     "x-csrftoken",
+    "acess"
 ]
 
 # Métodos HTTP permitidos
@@ -51,10 +66,6 @@ SPECTACULAR_SETTINGS = {
     'TITLE': 'Minha API',
     'DESCRIPTION': 'Descrição da API',
     'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-    'SWAGGER_UI_SETTINGS': {
-        'persistAuthorization': True
-    },
     'COMPONENT_SPLIT_REQUEST': True,
     'SECURITY': [
         {'BearerAuth': []},
@@ -62,6 +73,14 @@ SPECTACULAR_SETTINGS = {
         {'SessionAuth': []},
     ],
     'SERVE_PERMISSIONS': ['rest_framework.permissions.AllowAny'],
+    'COMPONENT_SPLIT_PATCH': True,
+    'SERVE_INCLUDE_SCHEMA': True,
+    'SCHEMA_PATH_PREFIX': '/api/v1/',
+    'SWAGGER_UI_SETTINGS': {
+        'persistAuthorization': True,
+        'docExpansion': 'none',
+    },
+    'SCHEMA_PATH_PREFIX_TRIM': True,
 }
 
 INSTALLED_APPS = [
@@ -125,24 +144,26 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'OkkaRelatorio.wsgi.application'
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/data/db.sqlite3',
-    }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        'backend.views': {  # substitua pelo caminho correto do seu módulo
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
 }
+
+WSGI_APPLICATION = 'OkkaRelatorio.wsgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -162,6 +183,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'corsheaders': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -175,6 +216,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "frontend", "build"),
+    os.path.join(BASE_DIR, "frontend", "build", "fonts"),
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

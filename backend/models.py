@@ -22,21 +22,21 @@ class User(AbstractUser):
 
 
 class Relatorio(models.Model):
-    titulo = models.CharField(max_length=50)
+    titulo = models.CharField(max_length=50, null=True)
     titulo_modificado = models.CharField(max_length=50, blank=True)
 
-    descricao = models.TextField()
+    descricao = models.TextField(null=True)
     descricao_modificada = models.TextField(blank=True)
 
     data_criacao = models.DateTimeField(auto_now_add=True)
     data_modificacao = models.DateTimeField(auto_now=True)
 
-    hora = models.IntegerField(default=0)
+    hora = models.IntegerField(default=0, null=True)
     hora_modificada = models.IntegerField(default=0)
 
-    colaborador = models.ForeignKey(User, on_delete=models.CASCADE)
-    setor = models.CharField(max_length=20, choices=User.SETOR_CHOICES, default="administrativo")
-    diretor = models.ForeignKey(User, related_name='relatorios_diretor', on_delete=models.CASCADE)
+    colaborador = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    setor = models.CharField(max_length=20, choices=User.SETOR_CHOICES, default="administrativo", null=True)
+    diretor = models.ForeignKey(User, related_name='relatorios_diretor', on_delete=models.CASCADE, null=True)
 
     aprovado_direroria = models.BooleanField(default=False)
     aprovado_presidencia = models.BooleanField(default=False)

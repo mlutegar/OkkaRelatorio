@@ -10,9 +10,22 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RelatorioSerializer(serializers.ModelSerializer):
+    colaborador = serializers.SlugRelatedField(
+        queryset=User.objects.all(),
+        slug_field='username'
+    )
+    diretor = serializers.SlugRelatedField(
+        queryset=User.objects.all(),
+        slug_field='username'
+    )
+
     class Meta:
         model = Relatorio
         fields = '__all__'
+        extra_kwargs = {
+            'colaborador': {'required': False},
+            'diretor': {'required': False}
+        }
 
 
 class CadastroSerializer(serializers.ModelSerializer):

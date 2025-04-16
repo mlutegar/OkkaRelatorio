@@ -6,3 +6,4 @@ drf-spectacular
 PyYAML
 drf-yasg
 django-rest-authtoken
+openpyxl
