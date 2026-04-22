@@ -5,7 +5,11 @@
       "Bash(grep -E \"\\\\.sh$|Makefile|docker\")",
       "Bash(cat)",
       "Read(//tmp/**)",
-      "Bash(xargs grep *)"
+      "Bash(xargs grep *)",
+      "Bash(pip install *)",
+      "Bash(py.exe *)",
+      "Bash(venv\\\\Scripts\\\\activate)",
+      "Bash(./venv/Scripts/pip install *)"
     ]
   }
 }
