@@ -1,24 +1,43 @@
-# Etapa 1: Imagem base com Python
+# ============================================
+# Stage 1: Build React Frontend
+# ============================================
+FROM node:18-alpine as frontend-builder
+
+WORKDIR /app/frontend
+
+# Copia e instala dependências do frontend
+COPY okkarelatorio-front/package*.json ./
+RUN npm ci --production=false
+
+# Copia código fonte e builda
+COPY okkarelatorio-front ./
+RUN npm run build
+
+# Output: /app/frontend/build/ contém bundle.js, index.html, style.css, etc
+
+# ============================================
+# Stage 2: Django Backend Runtime
+# ============================================
 FROM python:3.11-slim
 
-# Etapa 2: Define o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Etapa 3: Copia os arquivos de dependências para o container
-COPY requirements.txt /app/
-
-# Etapa 4: Instala as dependências do projeto
+# Instala dependências Python
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Etapa 5: Copia todo o código do projeto para o container
-COPY . /app/
+# Copia build do frontend do Stage 1
+COPY --from=frontend-builder /app/frontend/build ./frontend/build
 
-# Etapa 6: Configura variáveis de ambiente
+# Copia resto do código Django
+COPY . .
+
+# Coleta arquivos estáticos para produção
+RUN python manage.py collectstatic --noinput
+
 ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE=OkkaRelatorio.settings
 
-# Etapa 7: Exponha a porta 8000 para acessar o servidor Django
 EXPOSE 8000
 
-# Etapa 8: Comando padrão para iniciar o servidor
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
