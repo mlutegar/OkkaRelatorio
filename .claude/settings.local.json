@@ -9,7 +9,10 @@
       "Bash(pip install *)",
       "Bash(py.exe *)",
       "Bash(venv\\\\Scripts\\\\activate)",
-      "Bash(./venv/Scripts/pip install *)"
+      "Bash(./venv/Scripts/pip install *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(grep -E \"\\\\.\\(css|scss|less|sass|woff|ttf|otf|eot\\)$\")"
     ]
   }
 }
