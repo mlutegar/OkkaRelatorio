@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(file frontend/static/*)",
+      "Bash(grep -E \"\\\\.sh$|Makefile|docker\")",
+      "Bash(cat)",
+      "Read(//tmp/**)"
+    ]
+  }
+}
